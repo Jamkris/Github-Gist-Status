@@ -1,0 +1,26 @@
+name: Update Gists
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */7 * * *'
+jobs:
+  update-gists:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm run build
+      - run: node dist/index.js
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GIST_ID_PRODUCTIVE: ${{ secrets.GIST_ID_PRODUCTIVE }}
+          GIST_ID_STATS: ${{ secrets.GIST_ID_STATS }}
+          TIMEZONE: Asia/Seoul
+          ALL_COMMITS: 'true'
+          K_FORMAT: 'false'

@@ -1,0 +1,23 @@
+{
+  "name": "github-gist-status",
+  "version": "1.0.0",
+  "description": "GitHub Gist updater — productivity analysis & GitHub stats in your pinned gists",
+  "author": "Jamkris <contact@jamkris.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "ts-node src/index.ts",
+    "build": "ncc build src/index.ts --minify --target es2022",
+    "lint": "eslint src/ --ext .ts"
+  },
+  "dependencies": {
+    "@octokit/graphql": "^7.0.2",
+    "@octokit/rest": "^20.0.2",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@vercel/ncc": "^0.38.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}
