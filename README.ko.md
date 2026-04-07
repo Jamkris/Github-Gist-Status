@@ -58,11 +58,14 @@ GitHub 프로필 통계를 한눈에 보여줍니다.
 
 1. **Settings > Secrets and variables > Actions**에서 다음 시크릿을 추가합니다:
 
-   | Secret | 설명 |
-   |--------|------|
-   | `GH_TOKEN` | GitHub Personal Access Token |
-   | `GIST_ID_ACTIVITY` | Activity Gist ID |
-   | `GIST_ID_OVERVIEW` | Overview Gist ID |
+   | Secret | 값 | 설명 |
+   |--------|----|------|
+   | `GH_TOKEN` | `ghp_xxxxxxxxxxxx` | GitHub Personal Access Token |
+   | `GIST_ID_ACTIVITY` | `a62343a5341...` | Activity Gist ID |
+   | `GIST_ID_OVERVIEW` | `4b422dc6ce1...` | Overview Gist ID |
+
+   > **주의**: Gist URL 전체가 아닌, URL 맨 뒤의 **ID 부분만** 입력합니다.
+   > 예: `https://gist.github.com/username/`**`4b422dc6ce14fc228c191cdad3da4d9c`** → `4b422dc6ce14fc228c191cdad3da4d9c`
 
 2. Gist를 하나만 사용하고 싶다면, 해당 Gist ID만 설정하면 됩니다.
    나머지는 자동으로 건너뜁니다.

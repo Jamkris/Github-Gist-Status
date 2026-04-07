@@ -58,11 +58,14 @@ Fork this repository or create a new one, then:
 
 1. Go to **Settings > Secrets and variables > Actions** and add the following secrets:
 
-   | Secret | Description |
-   |--------|-------------|
-   | `GH_TOKEN` | GitHub Personal Access Token |
-   | `GIST_ID_ACTIVITY` | Activity Gist ID |
-   | `GIST_ID_OVERVIEW` | Overview Gist ID |
+   | Secret | Value | Description |
+   |--------|-------|-------------|
+   | `GH_TOKEN` | `ghp_xxxxxxxxxxxx` | GitHub Personal Access Token |
+   | `GIST_ID_ACTIVITY` | `a62343a5341...` | Activity Gist ID |
+   | `GIST_ID_OVERVIEW` | `4b422dc6ce1...` | Overview Gist ID |
+
+   > **Note**: Enter only the **ID** at the end of the Gist URL, not the full URL.
+   > e.g. `https://gist.github.com/username/`**`4b422dc6ce14fc228c191cdad3da4d9c`** → `4b422dc6ce14fc228c191cdad3da4d9c`
 
 2. If you only want to use one Gist, just set that Gist ID.
    The other will be skipped automatically.
