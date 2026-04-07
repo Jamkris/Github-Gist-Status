@@ -2,6 +2,8 @@
 
 GitHub 프로필에 고정(pin)할 수 있는 Gist를 자동으로 업데이트합니다.
 
+<img width="907" height="195" alt="preview" src="https://github.com/user-attachments/assets/7ee75ec5-1d2f-41c4-9c3c-6c1b0b68272a" />
+
 [English](README.md)
 
 **2가지 Gist를 지원합니다:**

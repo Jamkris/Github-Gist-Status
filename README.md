@@ -2,6 +2,8 @@
 
 Automatically update your pinned GitHub Gists with commit activity analysis and GitHub overview.
 
+<img width="907" height="195" alt="preview" src="https://github.com/user-attachments/assets/7ee75ec5-1d2f-41c4-9c3c-6c1b0b68272a" />
+
 [한국어](README.ko.md)
 
 **Supports 2 Gists:**
