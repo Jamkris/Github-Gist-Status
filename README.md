@@ -14,7 +14,7 @@ Automatically update your pinned GitHub Gists with commit activity analysis and 
 ### Activity Gist
 
 Analyzes your commit history and displays activity by time of day as a bar chart.
-The gist title changes to `I'm an early 🐤` or `I'm a night 🦉` depending on when you commit most.
+The gist title is displayed as `{name}'s Commit Activity`.
 
 ```
 🌞 Morning    73 commits ███████▍░░░░░░░░░░░░░  19.3%

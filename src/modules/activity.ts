@@ -12,7 +12,7 @@ export async function updateActivityGist(config: Config): Promise<void> {
   const graphql = createGraphqlClient(config.ghToken);
 
   const userResponse: any = await graphql(USER_INFO_QUERY);
-  const { login: username, id } = userResponse.viewer;
+  const { login: username, id, name } = userResponse.viewer;
 
   const repoResponse: any = await graphql(createContributedRepoQuery(username));
   const repos: Repo[] = repoResponse.user.repositoriesContributedTo.nodes
@@ -72,8 +72,8 @@ export async function updateActivityGist(config: Config): Promise<void> {
   const gist = await octokit.gists.get({ gist_id: config.gistIdActivity });
   const filename = Object.keys(gist.data.files!)[0];
 
-  const isEarlyBird = time.morning + time.daytime > time.evening + time.night;
-  const newFilename = isEarlyBird ? "I'm an early 🐤" : "I'm a night 🦉";
+  const displayName = name || username;
+  const newFilename = `${displayName}'s Commit Activity`;
   const content = lines.join('\n');
 
   await octokit.gists.update({
