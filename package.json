@@ -1,7 +1,7 @@
 {
   "name": "github-gist-status",
   "version": "1.0.0",
-  "description": "GitHub Gist updater — productivity analysis & GitHub stats in your pinned gists",
+  "description": "GitHub Gist updater — commit activity analysis & GitHub overview in your pinned gists",
   "author": "Jamkris <contact@jamkris.com>",
   "license": "MIT",
   "scripts": {

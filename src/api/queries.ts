@@ -44,7 +44,7 @@ export const createCommitHistoryQuery = (id: string, name: string, owner: string
   }
 `;
 
-export const STATS_QUERY = `
+export const OVERVIEW_QUERY = `
   query {
     viewer {
       name

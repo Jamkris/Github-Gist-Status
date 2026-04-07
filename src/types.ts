@@ -3,7 +3,7 @@ export interface Repo {
   owner: string;
 }
 
-export interface GitHubStats {
+export interface GitHubOverview {
   name: string;
   totalStars: number;
   totalCommits: number;
@@ -21,8 +21,8 @@ export interface TimeCommits {
 
 export interface Config {
   ghToken: string;
-  gistIdProductive: string;
-  gistIdStats: string;
+  gistIdActivity: string;
+  gistIdOverview: string;
   timezone: string;
   allCommits: boolean;
   kFormat: boolean;

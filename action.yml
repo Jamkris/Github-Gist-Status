@@ -1,6 +1,6 @@
 name: 'Github-Gist-Status'
 author: 'Jamkris'
-description: 'Update pinned GitHub Gists with productivity analysis and GitHub stats'
+description: 'Update pinned GitHub Gists with commit activity analysis and GitHub overview'
 branding:
   icon: 'activity'
   color: 'blue'

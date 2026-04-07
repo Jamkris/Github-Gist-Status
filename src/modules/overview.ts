@@ -1,8 +1,8 @@
 import { Octokit } from '@octokit/rest';
 import { createGraphqlClient } from '../api/graphql';
-import { STATS_QUERY, createTotalCommitsQuery } from '../api/queries';
+import { OVERVIEW_QUERY, createTotalCommitsQuery } from '../api/queries';
 import { humanize } from '../utils/format';
-import type { Config, GitHubStats } from '../types';
+import type { Config, GitHubOverview } from '../types';
 
 async function fetchTotalCommits(login: string, token: string): Promise<number> {
   const res = await fetch(createTotalCommitsQuery(login), {
@@ -16,9 +16,9 @@ async function fetchTotalCommits(login: string, token: string): Promise<number> 
   return (data as any).total_count ?? 0;
 }
 
-async function fetchStats(config: Config): Promise<GitHubStats> {
+async function fetchOverview(config: Config): Promise<GitHubOverview> {
   const graphql = createGraphqlClient(config.ghToken);
-  const response: any = await graphql(STATS_QUERY);
+  const response: any = await graphql(OVERVIEW_QUERY);
   const user = response.viewer;
 
   const totalStars = user.repositories.nodes.reduce(
@@ -41,17 +41,17 @@ async function fetchStats(config: Config): Promise<GitHubStats> {
   };
 }
 
-export async function updateStatsGist(config: Config): Promise<void> {
-  const stats = await fetchStats(config);
+export async function updateOverviewGist(config: Config): Promise<void> {
+  const overview = await fetchOverview(config);
 
   const h = (n: number) => humanize(n, config.kFormat);
 
   const rows = [
-    ['⭐', 'Total Stars', h(stats.totalStars)],
-    ['➕', config.allCommits ? 'Total Commits' : 'Past Year Commits', h(stats.totalCommits)],
-    ['🔀', 'Total PRs', h(stats.totalPRs)],
-    ['🚩', 'Total Issues', h(stats.totalIssues)],
-    ['📦', 'Contributed to', h(stats.contributedTo)],
+    ['⭐', 'Total Stars', h(overview.totalStars)],
+    ['➕', config.allCommits ? 'Total Commits' : 'Past Year Commits', h(overview.totalCommits)],
+    ['🔀', 'Total PRs', h(overview.totalPRs)],
+    ['🚩', 'Total Issues', h(overview.totalIssues)],
+    ['📦', 'Contributed to', h(overview.contributedTo)],
   ];
 
   const content =
@@ -64,23 +64,23 @@ export async function updateStatsGist(config: Config): Promise<void> {
       .join('\n') + '\n';
 
   const octokit = new Octokit({ auth: config.ghToken });
-  const gist = await octokit.gists.get({ gist_id: config.gistIdStats });
+  const gist = await octokit.gists.get({ gist_id: config.gistIdOverview });
   const filename = Object.keys(gist.data.files!)[0];
 
   if (gist.data.files![filename]!.content === content) {
-    console.info('[stats] Nothing to update.');
+    console.info('[overview] Nothing to update.');
     return;
   }
 
   await octokit.gists.update({
-    gist_id: config.gistIdStats,
+    gist_id: config.gistIdOverview,
     files: {
       [filename]: {
-        filename: `${stats.name}'s GitHub Stats`,
+        filename: `${overview.name}'s GitHub Overview`,
         content,
       },
     },
   });
 
-  console.info(`[stats] Updated gist → ${stats.name}'s GitHub Stats`);
+  console.info(`[overview] Updated gist → ${overview.name}'s GitHub Overview`);
 }

@@ -1,6 +1,6 @@
 # Github-Gist-Status
 
-Automatically update your pinned GitHub Gists with productivity analysis and GitHub stats.
+Automatically update your pinned GitHub Gists with commit activity analysis and GitHub overview.
 
 [한국어](README.ko.md)
 
@@ -8,10 +8,10 @@ Automatically update your pinned GitHub Gists with productivity analysis and Git
 
 | Gist | Description | Example |
 |------|-------------|---------|
-| **Productive** | Commit time distribution analysis | `🌞 Morning  120 commits ██████░░░░░░░  25.0%` |
-| **Stats** | GitHub statistics summary | `⭐ Total Stars: 142` |
+| **Activity** | Commit time distribution analysis | `🌞 Morning  120 commits ██████░░░░░░░  25.0%` |
+| **Overview** | GitHub statistics summary | `⭐ Total Stars: 142` |
 
-### Productive Gist
+### Activity Gist
 
 Analyzes your commit history and displays activity by time of day as a bar chart.
 The gist title changes to `I'm an early 🐤` or `I'm a night 🦉` depending on when you commit most.
@@ -23,7 +23,7 @@ The gist title changes to `I'm an early 🐤` or `I'm a night 🦉` depending on
 🌙 Night      51 commits █████▏░░░░░░░░░░░░░░░  13.5%
 ```
 
-### Stats Gist
+### Overview Gist
 
 Shows your GitHub profile statistics at a glance.
 
@@ -42,7 +42,7 @@ Shows your GitHub profile statistics at a glance.
 ### 1. Create Gists
 
 1. Create **2 Gists** at [gist.github.com](https://gist.github.com).
-   - One for Productive, one for Stats
+   - One for Activity, one for Overview
    - The filename and content can be anything (they will be updated automatically)
 2. Copy the ID from each Gist URL.
    - `https://gist.github.com/username/`**`abc123...`** — this part
@@ -61,8 +61,8 @@ Fork this repository or create a new one, then:
    | Secret | Description |
    |--------|-------------|
    | `GH_TOKEN` | GitHub Personal Access Token |
-   | `GIST_ID_PRODUCTIVE` | Productive Gist ID |
-   | `GIST_ID_STATS` | Stats Gist ID |
+   | `GIST_ID_ACTIVITY` | Activity Gist ID |
+   | `GIST_ID_OVERVIEW` | Overview Gist ID |
 
 2. If you only want to use one Gist, just set that Gist ID.
    The other will be skipped automatically.
@@ -122,8 +122,8 @@ Github-Gist-Status/
 │   │   ├── graphql.ts      # GraphQL client
 │   │   └── queries.ts      # GraphQL queries
 │   ├── modules/
-│   │   ├── productive.ts   # Productivity analysis module
-│   │   └── stats.ts        # GitHub stats module
+│   │   ├── activity.ts     # Commit activity analysis module
+│   │   └── overview.ts     # GitHub overview module
 │   └── utils/
 │       ├── barChart.ts     # Bar chart generator
 │       └── format.ts       # Number formatting

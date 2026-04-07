@@ -19,8 +19,8 @@ jobs:
       - run: node dist/index.js
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          GIST_ID_PRODUCTIVE: ${{ secrets.GIST_ID_PRODUCTIVE }}
-          GIST_ID_STATS: ${{ secrets.GIST_ID_STATS }}
+          GIST_ID_ACTIVITY: ${{ secrets.GIST_ID_ACTIVITY }}
+          GIST_ID_OVERVIEW: ${{ secrets.GIST_ID_OVERVIEW }}
           TIMEZONE: Asia/Seoul
           ALL_COMMITS: 'true'
           K_FORMAT: 'false'

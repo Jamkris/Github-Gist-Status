@@ -1,7 +1,7 @@
 import { resolve } from 'path';
 import { config } from 'dotenv';
-import { updateProductiveGist } from './modules/productive';
-import { updateStatsGist } from './modules/stats';
+import { updateActivityGist } from './modules/activity';
+import { updateOverviewGist } from './modules/overview';
 import type { Config } from './types';
 
 config({ path: resolve(__dirname, '../.env') });
@@ -14,8 +14,8 @@ function loadConfig(): Config {
 
   return {
     ghToken,
-    gistIdProductive: process.env.GIST_ID_PRODUCTIVE ?? '',
-    gistIdStats: process.env.GIST_ID_STATS ?? '',
+    gistIdActivity: process.env.GIST_ID_ACTIVITY ?? '',
+    gistIdOverview: process.env.GIST_ID_OVERVIEW ?? '',
     timezone: process.env.TIMEZONE ?? 'Asia/Seoul',
     allCommits: process.env.ALL_COMMITS === 'true',
     kFormat: process.env.K_FORMAT === 'true',
@@ -27,24 +27,24 @@ async function main() {
 
   const tasks: Promise<void>[] = [];
 
-  if (cfg.gistIdProductive) {
+  if (cfg.gistIdActivity) {
     tasks.push(
-      updateProductiveGist(cfg).catch((err) =>
-        console.error(`[productive] Failed: ${err.message}`)
+      updateActivityGist(cfg).catch((err) =>
+        console.error(`[activity] Failed: ${err.message}`)
       )
     );
   } else {
-    console.info('[productive] GIST_ID_PRODUCTIVE not set, skipping.');
+    console.info('[activity] GIST_ID_ACTIVITY not set, skipping.');
   }
 
-  if (cfg.gistIdStats) {
+  if (cfg.gistIdOverview) {
     tasks.push(
-      updateStatsGist(cfg).catch((err) =>
-        console.error(`[stats] Failed: ${err.message}`)
+      updateOverviewGist(cfg).catch((err) =>
+        console.error(`[overview] Failed: ${err.message}`)
       )
     );
   } else {
-    console.info('[stats] GIST_ID_STATS not set, skipping.');
+    console.info('[overview] GIST_ID_OVERVIEW not set, skipping.');
   }
 
   await Promise.all(tasks);

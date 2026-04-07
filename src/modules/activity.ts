@@ -8,7 +8,7 @@ import {
 import { generateBarChart } from '../utils/barChart';
 import type { Config, Repo, TimeCommits } from '../types';
 
-export async function updateProductiveGist(config: Config): Promise<void> {
+export async function updateActivityGist(config: Config): Promise<void> {
   const graphql = createGraphqlClient(config.ghToken);
 
   const userResponse: any = await graphql(USER_INFO_QUERY);
@@ -47,7 +47,7 @@ export async function updateProductiveGist(config: Config): Promise<void> {
 
   const sum = time.morning + time.daytime + time.evening + time.night;
   if (!sum) {
-    console.info('[productive] No commits found, skipping.');
+    console.info('[activity] No commits found, skipping.');
     return;
   }
 
@@ -69,7 +69,7 @@ export async function updateProductiveGist(config: Config): Promise<void> {
   });
 
   const octokit = new Octokit({ auth: config.ghToken });
-  const gist = await octokit.gists.get({ gist_id: config.gistIdProductive });
+  const gist = await octokit.gists.get({ gist_id: config.gistIdActivity });
   const filename = Object.keys(gist.data.files!)[0];
 
   const isEarlyBird = time.morning + time.daytime > time.evening + time.night;
@@ -77,7 +77,7 @@ export async function updateProductiveGist(config: Config): Promise<void> {
   const content = lines.join('\n');
 
   await octokit.gists.update({
-    gist_id: config.gistIdProductive,
+    gist_id: config.gistIdActivity,
     files: {
       [filename]: {
         filename: newFilename,
@@ -86,5 +86,5 @@ export async function updateProductiveGist(config: Config): Promise<void> {
     },
   });
 
-  console.info(`[productive] Updated gist → ${newFilename}`);
+  console.info(`[activity] Updated gist → ${newFilename}`);
 }
