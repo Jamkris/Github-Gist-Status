@@ -37,11 +37,20 @@ const THEMES: Record<Theme, ThemeColors> = {
 const FONT_FAMILY =
   "ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace";
 
-const WIDTH = 620;
-const PADDING_X = 24;
+const WIDTH = 500;
+const PADDING_X = 20;
 const HEADER_H = 38;
 const ROW_H = 26;
 const BODY_PAD_Y = 18;
+const TARGET_ROWS = 5;
+const TOTAL_HEIGHT = HEADER_H + BODY_PAD_Y * 2 + ROW_H * TARGET_ROWS;
+
+function rowCenterY(rowCount: number, i: number): number {
+  const bodyTop = HEADER_H + BODY_PAD_Y;
+  const bodyH = TOTAL_HEIGHT - HEADER_H - BODY_PAD_Y * 2;
+  const spacing = bodyH / rowCount;
+  return bodyTop + (i + 0.5) * spacing;
+}
 
 function escapeXml(s: string): string {
   return s
@@ -75,34 +84,34 @@ export function buildActivitySvg(
   theme: Theme
 ): string {
   const c = THEMES[theme];
-  const height = HEADER_H + BODY_PAD_Y * 2 + ROW_H * rows.length;
 
-  const barX = 230;
-  const barW = 220;
   const labelX = PADDING_X;
-  const commitsX = 215;
+  const commitsX = 195;
+  const barX = 205;
+  const barW = 220;
   const percentX = WIDTH - PADDING_X;
 
   const rowsSvg = rows
     .map((row, i) => {
-      const y = HEADER_H + BODY_PAD_Y + i * ROW_H + 18;
-      const barY = y - 12;
+      const center = rowCenterY(rows.length, i);
+      const textY = center + 5;
+      const barY = center - 5;
       const fillW = Math.max(0, Math.min(barW, (barW * row.percent) / 100));
       const labelText = `${row.emoji}  ${row.label}`;
       const commitsText = `${row.commits.toLocaleString()} commits`;
       const pctText = `${row.percent.toFixed(1)}%`;
 
       return `
-    <text x="${labelX}" y="${y}" fill="${c.text}" font-family="${FONT_FAMILY}" font-size="13">${escapeXml(labelText)}</text>
-    <text x="${commitsX}" y="${y}" text-anchor="end" fill="${c.subtext}" font-family="${FONT_FAMILY}" font-size="13">${escapeXml(commitsText)}</text>
+    <text x="${labelX}" y="${textY}" fill="${c.text}" font-family="${FONT_FAMILY}" font-size="13">${escapeXml(labelText)}</text>
+    <text x="${commitsX}" y="${textY}" text-anchor="end" fill="${c.subtext}" font-family="${FONT_FAMILY}" font-size="13">${escapeXml(commitsText)}</text>
     <rect x="${barX}" y="${barY}" width="${barW}" height="10" rx="5" fill="${c.barEmpty}" />
     <rect x="${barX}" y="${barY}" width="${fillW}" height="10" rx="5" fill="${c.barFill}" />
-    <text x="${percentX}" y="${y}" text-anchor="end" fill="${c.accent}" font-family="${FONT_FAMILY}" font-size="13" font-weight="600">${escapeXml(pctText)}</text>`;
+    <text x="${percentX}" y="${textY}" text-anchor="end" fill="${c.accent}" font-family="${FONT_FAMILY}" font-size="13" font-weight="600">${escapeXml(pctText)}</text>`;
     })
     .join('');
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${height}" viewBox="0 0 ${WIDTH} ${height}" role="img" aria-label="${escapeXml(title)}">
-  <rect x="0.5" y="0.5" width="${WIDTH - 1}" height="${height - 1}" fill="${c.bg}" stroke="${c.border}" rx="8" />
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${TOTAL_HEIGHT}" viewBox="0 0 ${WIDTH} ${TOTAL_HEIGHT}" role="img" aria-label="${escapeXml(title)}">
+  <rect x="0.5" y="0.5" width="${WIDTH - 1}" height="${TOTAL_HEIGHT - 1}" fill="${c.bg}" stroke="${c.border}" rx="8" />
   ${header(title, c)}
   ${rowsSvg}
 </svg>`;
@@ -120,24 +129,23 @@ export function buildOverviewSvg(
   theme: Theme
 ): string {
   const c = THEMES[theme];
-  const height = HEADER_H + BODY_PAD_Y * 2 + ROW_H * rows.length;
 
   const labelX = PADDING_X;
   const valueX = WIDTH - PADDING_X;
 
   const rowsSvg = rows
     .map((row, i) => {
-      const y = HEADER_H + BODY_PAD_Y + i * ROW_H + 18;
+      const textY = rowCenterY(rows.length, i) + 5;
       const labelText = `${row.emoji}  ${row.label}`;
 
       return `
-    <text x="${labelX}" y="${y}" fill="${c.text}" font-family="${FONT_FAMILY}" font-size="13">${escapeXml(labelText)}</text>
-    <text x="${valueX}" y="${y}" text-anchor="end" fill="${c.accent}" font-family="${FONT_FAMILY}" font-size="13" font-weight="600">${escapeXml(row.value)}</text>`;
+    <text x="${labelX}" y="${textY}" fill="${c.text}" font-family="${FONT_FAMILY}" font-size="13">${escapeXml(labelText)}</text>
+    <text x="${valueX}" y="${textY}" text-anchor="end" fill="${c.accent}" font-family="${FONT_FAMILY}" font-size="13" font-weight="600">${escapeXml(row.value)}</text>`;
     })
     .join('');
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${height}" viewBox="0 0 ${WIDTH} ${height}" role="img" aria-label="${escapeXml(title)}">
-  <rect x="0.5" y="0.5" width="${WIDTH - 1}" height="${height - 1}" fill="${c.bg}" stroke="${c.border}" rx="8" />
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${TOTAL_HEIGHT}" viewBox="0 0 ${WIDTH} ${TOTAL_HEIGHT}" role="img" aria-label="${escapeXml(title)}">
+  <rect x="0.5" y="0.5" width="${WIDTH - 1}" height="${TOTAL_HEIGHT - 1}" fill="${c.bg}" stroke="${c.border}" rx="8" />
   ${header(title, c)}
   ${rowsSvg}
 </svg>`;
