@@ -26,4 +26,6 @@ export interface Config {
   timezone: string;
   allCommits: boolean;
   kFormat: boolean;
+  outputSvg: boolean;
+  outputDir: string;
 }

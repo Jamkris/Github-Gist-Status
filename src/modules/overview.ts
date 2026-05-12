@@ -1,8 +1,31 @@
+import { mkdir, writeFile } from 'fs/promises';
+import { resolve } from 'path';
 import { Octokit } from '@octokit/rest';
 import { createGraphqlClient } from '../api/graphql';
 import { OVERVIEW_QUERY, createTotalCommitsQuery } from '../api/queries';
 import { humanize } from '../utils/format';
+import { buildOverviewSvg } from '../utils/svg';
 import type { Config, GitHubOverview } from '../types';
+
+interface OverviewRow {
+  emoji: string;
+  label: string;
+  value: string;
+}
+
+async function writeOverviewSvgs(
+  outputDir: string,
+  title: string,
+  rows: OverviewRow[]
+): Promise<void> {
+  const dir = resolve(process.cwd(), outputDir);
+  await mkdir(dir, { recursive: true });
+  await Promise.all([
+    writeFile(resolve(dir, 'overview-light.svg'), buildOverviewSvg(title, rows, 'light')),
+    writeFile(resolve(dir, 'overview-dark.svg'), buildOverviewSvg(title, rows, 'dark')),
+  ]);
+  console.info(`[overview] Wrote SVGs → ${outputDir}/overview-{light,dark}.svg`);
+}
 
 async function fetchTotalCommits(login: string, token: string): Promise<number> {
   const res = await fetch(createTotalCommitsQuery(login), {
@@ -46,20 +69,32 @@ export async function updateOverviewGist(config: Config): Promise<void> {
 
   const h = (n: number) => humanize(n, config.kFormat);
 
-  const rows = [
-    ['⭐', 'Total Stars', h(overview.totalStars)],
-    ['➕', config.allCommits ? 'Total Commits' : 'Past Year Commits', h(overview.totalCommits)],
-    ['🔀', 'Total PRs', h(overview.totalPRs)],
-    ['🚩', 'Total Issues', h(overview.totalIssues)],
-    ['📦', 'Contributed to', h(overview.contributedTo)],
+  const rows: OverviewRow[] = [
+    { emoji: '⭐', label: 'Total Stars', value: h(overview.totalStars) },
+    {
+      emoji: '➕',
+      label: config.allCommits ? 'Total Commits' : 'Past Year Commits',
+      value: h(overview.totalCommits),
+    },
+    { emoji: '🔀', label: 'Total PRs', value: h(overview.totalPRs) },
+    { emoji: '🚩', label: 'Total Issues', value: h(overview.totalIssues) },
+    { emoji: '📦', label: 'Contributed to', value: h(overview.contributedTo) },
   ];
+
+  const title = `${overview.name}'s GitHub Overview`;
+
+  if (config.outputSvg) {
+    await writeOverviewSvgs(config.outputDir, title, rows);
+  }
+
+  if (!config.gistIdOverview) return;
 
   const content =
     rows
-      .map(([icon, label, value]) => {
+      .map(({ emoji, label, value }) => {
         const line = `${label}:${value}`;
         const padded = line.replace(':', ':' + ' '.repeat(Math.max(1, 45 - line.length)));
-        return `${icon}    ${padded}`;
+        return `${emoji}    ${padded}`;
       })
       .join('\n') + '\n';
 
@@ -76,11 +111,11 @@ export async function updateOverviewGist(config: Config): Promise<void> {
     gist_id: config.gistIdOverview,
     files: {
       [filename]: {
-        filename: `${overview.name}'s GitHub Overview`,
+        filename: title,
         content,
       },
     },
   });
 
-  console.info(`[overview] Updated gist → ${overview.name}'s GitHub Overview`);
+  console.info(`[overview] Updated gist → ${title}`);
 }

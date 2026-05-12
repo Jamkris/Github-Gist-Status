@@ -19,6 +19,8 @@ function loadConfig(): Config {
     timezone: process.env.TIMEZONE ?? 'Asia/Seoul',
     allCommits: process.env.ALL_COMMITS === 'true',
     kFormat: process.env.K_FORMAT === 'true',
+    outputSvg: process.env.OUTPUT_SVG !== 'false',
+    outputDir: process.env.OUTPUT_DIR ?? 'output',
   };
 }
 
@@ -27,24 +29,24 @@ async function main() {
 
   const tasks: Promise<void>[] = [];
 
-  if (cfg.gistIdActivity) {
+  if (cfg.gistIdActivity || cfg.outputSvg) {
     tasks.push(
       updateActivityGist(cfg).catch((err) =>
         console.error(`[activity] Failed: ${err.message}`)
       )
     );
   } else {
-    console.info('[activity] GIST_ID_ACTIVITY not set, skipping.');
+    console.info('[activity] No GIST_ID_ACTIVITY and OUTPUT_SVG=false, skipping.');
   }
 
-  if (cfg.gistIdOverview) {
+  if (cfg.gistIdOverview || cfg.outputSvg) {
     tasks.push(
       updateOverviewGist(cfg).catch((err) =>
         console.error(`[overview] Failed: ${err.message}`)
       )
     );
   } else {
-    console.info('[overview] GIST_ID_OVERVIEW not set, skipping.');
+    console.info('[overview] No GIST_ID_OVERVIEW and OUTPUT_SVG=false, skipping.');
   }
 
   await Promise.all(tasks);

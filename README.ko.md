@@ -81,6 +81,8 @@ env:
   TIMEZONE: Asia/Seoul      # 시간대 (기본: Asia/Seoul)
   ALL_COMMITS: 'true'       # true: 전체 커밋 수 / false: 최근 1년
   K_FORMAT: 'false'         # true: 1.5k 형식 / false: 1,500 형식
+  OUTPUT_SVG: 'true'        # true: README에 임베드할 SVG도 output/에 생성
+  OUTPUT_DIR: 'output'      # SVG 출력 디렉터리
 ```
 
 ### 5. GitHub Actions 활성화
@@ -92,6 +94,26 @@ env:
 ### 6. Gist 고정
 
 GitHub 프로필에서 Gist를 고정(pin)하면 프로필에 표시됩니다.
+
+### 7. README에 SVG 임베드 (선택)
+
+Gist와 별개로, Action은 `output/` 폴더에 SVG 파일을 생성해서 저장소에 자동
+커밋합니다. 어떤 README에든 `<picture>` 태그로 임베드하면 라이트/다크 모드에
+따라 자동으로 전환됩니다:
+
+```html
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/<user>/<repo>/main/output/activity-dark.svg" />
+  <img alt="Commit Activity" src="https://raw.githubusercontent.com/<user>/<repo>/main/output/activity-light.svg" />
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/<user>/<repo>/main/output/overview-dark.svg" />
+  <img alt="GitHub Overview" src="https://raw.githubusercontent.com/<user>/<repo>/main/output/overview-light.svg" />
+</picture>
+```
+
+SVG 생성을 끄려면 워크플로우 env에서 `OUTPUT_SVG: 'false'`로 설정합니다.
 
 ---
 
@@ -130,8 +152,12 @@ Github-Gist-Status/
 │   │   ├── activity.ts     # 커밋 활동 분석 모듈
 │   │   └── overview.ts     # GitHub 개요 모듈
 │   └── utils/
-│       ├── barChart.ts     # 바 차트 생성
+│       ├── barChart.ts     # 바 차트 생성 (Gist 텍스트)
+│       ├── svg.ts          # SVG 빌더 (라이트/다크 테마)
 │       └── format.ts       # 숫자 포맷팅
+├── output/                 # 생성된 SVG (Action이 자동 커밋)
+│   ├── activity-{light,dark}.svg
+│   └── overview-{light,dark}.svg
 ├── action.yml              # GitHub Action 메타데이터
 ├── package.json
 ├── tsconfig.json

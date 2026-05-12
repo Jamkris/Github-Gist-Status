@@ -1,3 +1,5 @@
+import { mkdir, writeFile } from 'fs/promises';
+import { resolve } from 'path';
 import { Octokit } from '@octokit/rest';
 import { createGraphqlClient } from '../api/graphql';
 import {
@@ -6,7 +8,29 @@ import {
   createCommitHistoryQuery,
 } from '../api/queries';
 import { generateBarChart } from '../utils/barChart';
+import { buildActivitySvg } from '../utils/svg';
 import type { Config, Repo, TimeCommits } from '../types';
+
+interface ActivityRow {
+  emoji: string;
+  label: string;
+  commits: number;
+  percent: number;
+}
+
+async function writeActivitySvgs(
+  outputDir: string,
+  title: string,
+  rows: ActivityRow[]
+): Promise<void> {
+  const dir = resolve(process.cwd(), outputDir);
+  await mkdir(dir, { recursive: true });
+  await Promise.all([
+    writeFile(resolve(dir, 'activity-light.svg'), buildActivitySvg(title, rows, 'light')),
+    writeFile(resolve(dir, 'activity-dark.svg'), buildActivitySvg(title, rows, 'dark')),
+  ]);
+  console.info(`[activity] Wrote SVGs → ${outputDir}/activity-{light,dark}.svg`);
+}
 
 export async function updateActivityGist(config: Config): Promise<void> {
   const graphql = createGraphqlClient(config.ghToken);
@@ -51,40 +75,50 @@ export async function updateActivityGist(config: Config): Promise<void> {
     return;
   }
 
-  const rows = [
-    { label: '🌞 Morning', commits: time.morning },
-    { label: '🌆 Daytime', commits: time.daytime },
-    { label: '🌃 Evening', commits: time.evening },
-    { label: '🌙 Night  ', commits: time.night },
+  const segments: Array<{ emoji: string; label: string; commits: number }> = [
+    { emoji: '🌞', label: 'Morning', commits: time.morning },
+    { emoji: '🌆', label: 'Daytime', commits: time.daytime },
+    { emoji: '🌃', label: 'Evening', commits: time.evening },
+    { emoji: '🌙', label: 'Night  ', commits: time.night },
   ];
 
+  const rows: ActivityRow[] = segments.map((s) => ({
+    ...s,
+    percent: (s.commits / sum) * 100,
+  }));
+
   const lines = rows.map((row) => {
-    const percent = (row.commits / sum) * 100;
     return [
-      row.label.padEnd(10),
+      `${row.emoji} ${row.label}`.padEnd(10),
       `${String(row.commits).padStart(5)} commits`.padEnd(14),
-      generateBarChart(percent, 21),
-      `${percent.toFixed(1).padStart(5)}%`,
+      generateBarChart(row.percent, 21),
+      `${row.percent.toFixed(1).padStart(5)}%`,
     ].join(' ');
   });
+
+  const displayName = name || username;
+  const title = `${displayName}'s Commit Activity`;
+
+  if (config.outputSvg) {
+    await writeActivitySvgs(config.outputDir, title, rows);
+  }
+
+  if (!config.gistIdActivity) return;
 
   const octokit = new Octokit({ auth: config.ghToken });
   const gist = await octokit.gists.get({ gist_id: config.gistIdActivity });
   const filename = Object.keys(gist.data.files!)[0];
-
-  const displayName = name || username;
-  const newFilename = `${displayName}'s Commit Activity`;
   const content = lines.join('\n');
 
   await octokit.gists.update({
     gist_id: config.gistIdActivity,
     files: {
       [filename]: {
-        filename: newFilename,
+        filename: title,
         content,
       },
     },
   });
 
-  console.info(`[activity] Updated gist → ${newFilename}`);
+  console.info(`[activity] Updated gist → ${title}`);
 }

@@ -81,6 +81,8 @@ env:
   TIMEZONE: Asia/Seoul      # Timezone (default: Asia/Seoul)
   ALL_COMMITS: 'true'       # true: all-time commits / false: past year only
   K_FORMAT: 'false'         # true: 1.5k format / false: 1,500 format
+  OUTPUT_SVG: 'true'        # true: also generate SVGs into output/ for README embed
+  OUTPUT_DIR: 'output'      # SVG output directory
 ```
 
 ### 5. Enable GitHub Actions
@@ -92,6 +94,26 @@ env:
 ### 6. Pin the Gists
 
 Pin the Gists on your GitHub profile to display them publicly.
+
+### 7. Embed SVG on your README (optional)
+
+In addition to Gists, this action generates SVG files into the `output/` folder
+and commits them back to the repository. You can embed them on any README using
+the `<picture>` tag, which switches automatically between light/dark themes:
+
+```html
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/<user>/<repo>/main/output/activity-dark.svg" />
+  <img alt="Commit Activity" src="https://raw.githubusercontent.com/<user>/<repo>/main/output/activity-light.svg" />
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/<user>/<repo>/main/output/overview-dark.svg" />
+  <img alt="GitHub Overview" src="https://raw.githubusercontent.com/<user>/<repo>/main/output/overview-light.svg" />
+</picture>
+```
+
+To disable SVG generation, set `OUTPUT_SVG: 'false'` in the workflow env.
 
 ---
 
@@ -130,8 +152,12 @@ Github-Gist-Status/
 │   │   ├── activity.ts     # Commit activity analysis module
 │   │   └── overview.ts     # GitHub overview module
 │   └── utils/
-│       ├── barChart.ts     # Bar chart generator
+│       ├── barChart.ts     # Bar chart generator (Gist text)
+│       ├── svg.ts          # SVG builder (light/dark themes)
 │       └── format.ts       # Number formatting
+├── output/                 # Generated SVGs (committed by Action)
+│   ├── activity-{light,dark}.svg
+│   └── overview-{light,dark}.svg
 ├── action.yml              # GitHub Action metadata
 ├── package.json
 ├── tsconfig.json
