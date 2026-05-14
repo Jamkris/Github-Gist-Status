@@ -1,0 +1,14 @@
+{
+	"title": "Ongoing Projects",
+	"projects": [
+		{
+			"repo": "Jamkris/everything-gemini-code",
+			"description": "A harness engineering toolkit for Gemini CLI & Antigravity.",
+			"tags": [{ "icon": "🎯", "label": "Focus" }]
+		},
+		{
+			"repo": "Jamkris/Github-Gist-Status",
+			"tags": [{ "icon": "✅", "label": "Stable" }]
+		}
+	]
+}

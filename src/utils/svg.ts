@@ -150,3 +150,110 @@ export function buildOverviewSvg(
   ${rowsSvg}
 </svg>`;
 }
+
+interface ProjectChip {
+  icon?: string;
+  label: string;
+}
+
+interface ProjectRow {
+  name: string;
+  description: string;
+  metrics: ProjectChip[];
+  tags: ProjectChip[];
+}
+
+const NAME_ROW_H = 22;
+const DESC_ROW_H = 20;
+const TAGS_ROW_H = 22;
+const BLOCK_GAP = 14;
+const PROJECT_BODY_PAD_Y = 14;
+const MAX_DESC_CHARS = 56;
+
+function chipToString(chip: ProjectChip): string {
+  return chip.icon ? `${chip.icon} ${chip.label}` : chip.label;
+}
+
+function truncate(text: string, max: number): string {
+  if (text.length <= max) return text;
+  return text.slice(0, Math.max(0, max - 1)).trimEnd() + '…';
+}
+
+function blockHeight(row: ProjectRow): number {
+  let h = NAME_ROW_H;
+  if (row.description) h += DESC_ROW_H;
+  if (row.tags.length > 0) h += TAGS_ROW_H;
+  return h;
+}
+
+export function buildProjectSvg(
+  title: string,
+  rows: ProjectRow[],
+  theme: Theme
+): string {
+  const c = THEMES[theme];
+
+  if (rows.length === 0) {
+    const empty = HEADER_H + PROJECT_BODY_PAD_Y * 2 + NAME_ROW_H;
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${empty}" viewBox="0 0 ${WIDTH} ${empty}" role="img" aria-label="${escapeXml(title)}">
+  <rect x="0.5" y="0.5" width="${WIDTH - 1}" height="${empty - 1}" fill="${c.bg}" stroke="${c.border}" rx="8" />
+  ${header(title, c)}
+  <text x="${WIDTH / 2}" y="${HEADER_H + PROJECT_BODY_PAD_Y + NAME_ROW_H / 2 + 5}" text-anchor="middle" fill="${c.subtext}" font-family="${FONT_FAMILY}" font-size="13">No projects configured</text>
+</svg>`;
+  }
+
+  const blockHeights = rows.map(blockHeight);
+  const bodyHeight =
+    blockHeights.reduce((sum, h) => sum + h, 0) +
+    BLOCK_GAP * Math.max(0, rows.length - 1);
+  const totalHeight = HEADER_H + PROJECT_BODY_PAD_Y * 2 + bodyHeight;
+
+  const labelX = PADDING_X;
+  const rightX = WIDTH - PADDING_X;
+
+  let cursorY = HEADER_H + PROJECT_BODY_PAD_Y;
+  const blocks: string[] = [];
+
+  rows.forEach((row, i) => {
+    const blockTop = cursorY;
+    const parts: string[] = [];
+
+    const nameY = blockTop + NAME_ROW_H - 6;
+    parts.push(
+      `<text x="${labelX}" y="${nameY}" fill="${c.text}" font-family="${FONT_FAMILY}" font-size="13" font-weight="600">${escapeXml(row.name)}</text>`
+    );
+    if (row.metrics.length > 0) {
+      const metricsText = row.metrics.map(chipToString).join('  ');
+      parts.push(
+        `<text x="${rightX}" y="${nameY}" text-anchor="end" fill="${c.accent}" font-family="${FONT_FAMILY}" font-size="13" font-weight="600">${escapeXml(metricsText)}</text>`
+      );
+    }
+
+    let nextY = blockTop + NAME_ROW_H;
+
+    if (row.description) {
+      const descY = nextY + DESC_ROW_H - 6;
+      parts.push(
+        `<text x="${labelX}" y="${descY}" fill="${c.subtext}" font-family="${FONT_FAMILY}" font-size="12">${escapeXml(truncate(row.description, MAX_DESC_CHARS))}</text>`
+      );
+      nextY += DESC_ROW_H;
+    }
+
+    if (row.tags.length > 0) {
+      const tagsText = row.tags.map(chipToString).join('   ');
+      const tagsY = nextY + TAGS_ROW_H - 6;
+      parts.push(
+        `<text x="${labelX}" y="${tagsY}" fill="${c.text}" font-family="${FONT_FAMILY}" font-size="12">${escapeXml(truncate(tagsText, 64))}</text>`
+      );
+    }
+
+    blocks.push(parts.join('\n  '));
+    cursorY += blockHeights[i] + (i < rows.length - 1 ? BLOCK_GAP : 0);
+  });
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${totalHeight}" viewBox="0 0 ${WIDTH} ${totalHeight}" role="img" aria-label="${escapeXml(title)}">
+  <rect x="0.5" y="0.5" width="${WIDTH - 1}" height="${totalHeight - 1}" fill="${c.bg}" stroke="${c.border}" rx="8" />
+  ${header(title, c)}
+  ${blocks.join('\n  ')}
+</svg>`;
+}

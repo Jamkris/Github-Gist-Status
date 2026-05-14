@@ -6,12 +6,13 @@ Automatically update your pinned GitHub Gists with commit activity analysis and 
 
 [한국어](README.ko.md)
 
-**Supports 2 Gists:**
+**Supports 3 Gists:**
 
 | Gist | Description | Example |
 |------|-------------|---------|
 | **Activity** | Commit time distribution analysis | `🌞 Morning  120 commits ██████░░░░░░░  25.0%` |
 | **Overview** | GitHub statistics summary | `⭐ Total Stars: 142` |
+| **Project** | Ongoing projects with custom tags | `📦 my-project  ⭐ 12  🍴 3  v1.0` |
 
 ### Activity Gist
 
@@ -35,6 +36,21 @@ Shows your GitHub profile statistics at a glance.
 🔀    Total PRs:                                   56
 🚩    Total Issues:                                23
 📦    Contributed to:                              18
+```
+
+### Project Gist
+
+Highlights ongoing projects from a list you define in `config/project.json`.
+Each entry pulls live stars/forks/version from GitHub, and you can add custom
+tags such as `🚧 WIP`, `🎯 Focus`, or `TypeScript`.
+
+```
+📦  everything-gemini-code   ⭐ 12   🍴 3   v1.0
+    A harness engineering toolkit for Gemini CLI & Antigravity.
+    🚧 WIP    🎯 Focus    TypeScript
+
+📦  Github-Gist-Status   ⭐ 8   🍴 1   v1.0
+    ✅ Stable
 ```
 
 ---
@@ -65,6 +81,7 @@ Fork this repository or create a new one, then:
    | `GH_TOKEN` | `ghp_xxxxxxxxxxxx` | GitHub Personal Access Token |
    | `GIST_ID_ACTIVITY` | `a62343a5341...` | Activity Gist ID |
    | `GIST_ID_OVERVIEW` | `4b422dc6ce1...` | Overview Gist ID |
+   | `GIST_ID_PROJECT` | `9f0a8b7c6d5...` | Project Gist ID (optional) |
 
    > **Note**: Enter only the **ID** at the end of the Gist URL, not the full URL.
    > e.g. `https://gist.github.com/username/`**`4b422dc6ce14fc228c191cdad3da4d9c`** → `4b422dc6ce14fc228c191cdad3da4d9c`
@@ -78,11 +95,12 @@ You can modify environment variables in `.github/workflows/schedule.yml`:
 
 ```yaml
 env:
-  TIMEZONE: Asia/Seoul      # Timezone (default: Asia/Seoul)
-  ALL_COMMITS: 'true'       # true: all-time commits / false: past year only
-  K_FORMAT: 'false'         # true: 1.5k format / false: 1,500 format
-  OUTPUT_SVG: 'true'        # true: also generate SVGs into output/ for README embed
-  OUTPUT_DIR: 'output'      # SVG output directory
+  TIMEZONE: Asia/Seoul              # Timezone (default: Asia/Seoul)
+  ALL_COMMITS: 'true'               # true: all-time commits / false: past year only
+  K_FORMAT: 'false'                 # true: 1.5k format / false: 1,500 format
+  OUTPUT_SVG: 'true'                # true: also generate SVGs into output/ for README embed
+  OUTPUT_DIR: 'output'              # SVG output directory
+  PROJECT_CONFIG: 'config/project.json'  # Project list (skip module if file missing)
 ```
 
 ### 5. Enable GitHub Actions
@@ -111,9 +129,46 @@ the `<picture>` tag, which switches automatically between light/dark themes:
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/<user>/<repo>/main/output/overview-dark.svg" />
   <img alt="GitHub Overview" src="https://raw.githubusercontent.com/<user>/<repo>/main/output/overview-light.svg" />
 </picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/<user>/<repo>/main/output/project-dark.svg" />
+  <img alt="Ongoing Projects" src="https://raw.githubusercontent.com/<user>/<repo>/main/output/project-light.svg" />
+</picture>
 ```
 
 To disable SVG generation, set `OUTPUT_SVG: 'false'` in the workflow env.
+
+### Configuring the Project SVG
+
+Create `config/project.json` listing the projects you want to showcase. Each
+project pulls stars/forks/version from GitHub automatically; you can add
+optional custom tags (status, stack, focus, anything) to highlight context:
+
+```json
+{
+  "title": "Ongoing Projects",
+  "projects": [
+    {
+      "repo": "Jamkris/everything-gemini-code",
+      "description": "A harness engineering toolkit for Gemini CLI & Antigravity.",
+      "tags": [
+        { "icon": "🚧", "label": "WIP" },
+        { "icon": "🎯", "label": "Focus" },
+        { "label": "TypeScript" }
+      ]
+    },
+    {
+      "repo": "Jamkris/Github-Gist-Status",
+      "tags": [{ "icon": "✅", "label": "Stable" }]
+    }
+  ]
+}
+```
+
+- `repo` is required (`owner/name`).
+- `description` is optional — falls back to the GitHub repo description.
+- `tags` is an array of `{ icon?, label }`. Both fields accept any emoji or text.
+- If the config file is missing, the Project module is silently skipped.
 
 ---
 
@@ -142,6 +197,8 @@ npm run build
 Github-Gist-Status/
 ├── .github/workflows/
 │   └── schedule.yml        # GitHub Actions (runs every 7 hours)
+├── config/
+│   └── project.json        # Project list (consumed by Project module)
 ├── src/
 │   ├── index.ts            # Main entry point
 │   ├── types.ts            # Shared type definitions
@@ -150,14 +207,17 @@ Github-Gist-Status/
 │   │   └── queries.ts      # GraphQL queries
 │   ├── modules/
 │   │   ├── activity.ts     # Commit activity analysis module
-│   │   └── overview.ts     # GitHub overview module
+│   │   ├── overview.ts     # GitHub overview module
+│   │   └── project.ts      # Project showcase module
 │   └── utils/
 │       ├── barChart.ts     # Bar chart generator (Gist text)
 │       ├── svg.ts          # SVG builder (light/dark themes)
-│       └── format.ts       # Number formatting
+│       ├── format.ts       # Number formatting
+│       └── projectConfig.ts # config/project.json loader
 ├── output/                 # Generated SVGs (committed by Action)
 │   ├── activity-{light,dark}.svg
-│   └── overview-{light,dark}.svg
+│   ├── overview-{light,dark}.svg
+│   └── project-{light,dark}.svg
 ├── action.yml              # GitHub Action metadata
 ├── package.json
 ├── tsconfig.json

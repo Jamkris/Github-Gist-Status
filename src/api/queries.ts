@@ -74,3 +74,22 @@ export const OVERVIEW_QUERY = `
 
 export const createTotalCommitsQuery = (login: string) =>
   `https://api.github.com/search/commits?q=author:${login}`;
+
+export const createProjectInfoQuery = (
+  entries: ReadonlyArray<{ owner: string; name: string }>
+): string => {
+  const fields = entries
+    .map(
+      (e, i) => `
+    r${i}: repository(owner: "${e.owner}", name: "${e.name}") {
+      nameWithOwner
+      description
+      stargazerCount
+      forkCount
+      latestRelease { tagName }
+    }`
+    )
+    .join('');
+  return `query {${fields}\n  }`;
+};
+
