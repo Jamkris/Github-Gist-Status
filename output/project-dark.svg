@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="188" viewBox="0 0 500 188" role="img" aria-label="Ongoing Projects">
+  <rect x="0.5" y="0.5" width="499" height="187" fill="#0d1117" stroke="#30363d" rx="8" />
+  
+  <rect x="0.5" y="0.5" width="499" height="38" fill="#161b22" stroke="#30363d" rx="8" />
+  <rect x="0.5" y="19" width="499" height="19" fill="#161b22" stroke="none" />
+  <circle cx="20" cy="19" r="6" fill="#ff5f57" />
+  <circle cx="40" cy="19" r="6" fill="#febc2e" />
+  <circle cx="60" cy="19" r="6" fill="#28c840" />
+  <text x="250" y="24" text-anchor="middle" fill="#8b949e" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="13">Ongoing Projects</text>
+  <text x="20" y="68" fill="#e6edf3" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="13" font-weight="600">everything-gemini-code</text>
+  <text x="480" y="68" text-anchor="end" fill="#7ee787" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="13" font-weight="600">⭐ 63  🍴 10  v1.3.12</text>
+  <text x="20" y="88" fill="#8b949e" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="12">A harness engineering toolkit for Gemini CLI &amp; Antigrav…</text>
+  <text x="20" y="110" fill="#e6edf3" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="12">🎯 Focus</text>
+  <text x="20" y="146" fill="#e6edf3" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="13" font-weight="600">Github-Gist-Status</text>
+  <text x="480" y="146" text-anchor="end" fill="#7ee787" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="13" font-weight="600">⭐ 1  🍴 1  1.0.1</text>
+  <text x="20" y="168" fill="#e6edf3" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="12">✅ Stable</text>
+</svg>
