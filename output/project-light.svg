@@ -8,7 +8,7 @@
   <circle cx="60" cy="19" r="6" fill="#28c840" />
   <text x="250" y="24" text-anchor="middle" fill="#656d76" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="13">Ongoing Projects</text>
   <text x="20" y="68" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="13" font-weight="600">everything-gemini-code</text>
-  <text x="480" y="68" text-anchor="end" fill="#1a7f37" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="13" font-weight="600">⭐ 63  🍴 10  v1.3.12</text>
+  <text x="480" y="68" text-anchor="end" fill="#1a7f37" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="13" font-weight="600">⭐ 65  🍴 10  v1.3.12</text>
   <text x="20" y="88" fill="#656d76" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="12">A harness engineering toolkit for Gemini CLI &amp; Antigrav…</text>
   <text x="20" y="110" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="12">🎯 Focus</text>
   <text x="20" y="146" fill="#1f2328" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="13" font-weight="600">Github-Gist-Status</text>
