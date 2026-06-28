@@ -11,21 +11,21 @@
     <text x="20" y="77.25" fill="#e6edf3" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="13">🌞  Morning</text>
     <text x="195" y="77.25" text-anchor="end" fill="#8b949e" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="13">287 commits</text>
     <rect x="205" y="67.25" width="220" height="10" rx="5" fill="#21262d" />
-    <rect x="205" y="67.25" width="92.98969072164948" height="10" rx="5" fill="#58a6ff" />
-    <text x="480" y="77.25" text-anchor="end" fill="#7ee787" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="13" font-weight="600">42.3%</text>
+    <rect x="205" y="67.25" width="92.58064516129032" height="10" rx="5" fill="#58a6ff" />
+    <text x="480" y="77.25" text-anchor="end" fill="#7ee787" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="13" font-weight="600">42.1%</text>
     <text x="20" y="109.75" fill="#e6edf3" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="13">🌆  Daytime</text>
-    <text x="195" y="109.75" text-anchor="end" fill="#8b949e" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="13">265 commits</text>
+    <text x="195" y="109.75" text-anchor="end" fill="#8b949e" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="13">268 commits</text>
     <rect x="205" y="99.75" width="220" height="10" rx="5" fill="#21262d" />
-    <rect x="205" y="99.75" width="85.86156111929309" height="10" rx="5" fill="#58a6ff" />
-    <text x="480" y="109.75" text-anchor="end" fill="#7ee787" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="13" font-weight="600">39.0%</text>
+    <rect x="205" y="99.75" width="86.45161290322581" height="10" rx="5" fill="#58a6ff" />
+    <text x="480" y="109.75" text-anchor="end" fill="#7ee787" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="13" font-weight="600">39.3%</text>
     <text x="20" y="142.25" fill="#e6edf3" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="13">🌃  Evening</text>
     <text x="195" y="142.25" text-anchor="end" fill="#8b949e" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="13">101 commits</text>
     <rect x="205" y="132.25" width="220" height="10" rx="5" fill="#21262d" />
-    <rect x="205" y="132.25" width="32.72459499263623" height="10" rx="5" fill="#58a6ff" />
-    <text x="480" y="142.25" text-anchor="end" fill="#7ee787" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="13" font-weight="600">14.9%</text>
+    <rect x="205" y="132.25" width="32.58064516129033" height="10" rx="5" fill="#58a6ff" />
+    <text x="480" y="142.25" text-anchor="end" fill="#7ee787" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="13" font-weight="600">14.8%</text>
     <text x="20" y="174.75" fill="#e6edf3" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="13">🌙  Night  </text>
     <text x="195" y="174.75" text-anchor="end" fill="#8b949e" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="13">26 commits</text>
     <rect x="205" y="164.75" width="220" height="10" rx="5" fill="#21262d" />
-    <rect x="205" y="164.75" width="8.424153166421208" height="10" rx="5" fill="#58a6ff" />
+    <rect x="205" y="164.75" width="8.387096774193548" height="10" rx="5" fill="#58a6ff" />
     <text x="480" y="174.75" text-anchor="end" fill="#7ee787" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="13" font-weight="600">3.8%</text>
 </svg>
