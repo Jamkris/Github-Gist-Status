@@ -17,5 +17,5 @@
     <text x="20" y="152" fill="#e6edf3" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="13">🚩  Total Issues</text>
     <text x="480" y="152" text-anchor="end" fill="#7ee787" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="13" font-weight="600">105</text>
     <text x="20" y="178" fill="#e6edf3" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="13">📦  Contributed to</text>
-    <text x="480" y="178" text-anchor="end" fill="#7ee787" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="13" font-weight="600">4</text>
+    <text x="480" y="178" text-anchor="end" fill="#7ee787" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-size="13" font-weight="600">3</text>
 </svg>
